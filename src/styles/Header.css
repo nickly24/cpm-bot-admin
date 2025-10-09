@@ -1,0 +1,171 @@
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 22px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+
+.header-icon {
+  font-size: 28px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-notification {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.notification-icon {
+  font-size: 20px;
+  animation: ring 2s ease-in-out infinite;
+}
+
+@keyframes ring {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  10%, 30% {
+    transform: rotate(-10deg);
+  }
+  20%, 40% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.notification-count {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.notification-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 1024px) {
+  .header {
+    padding: 0 20px;
+  }
+
+  .header-title {
+    font-size: 20px;
+  }
+
+  .header-icon {
+    font-size: 24px;
+  }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 16px 0 60px;
+  }
+
+  .header-content {
+    height: 56px;
+  }
+
+  .header-title {
+    font-size: 18px;
+    gap: 8px;
+  }
+
+  .header-icon {
+    font-size: 22px;
+  }
+
+  .notification-text {
+    display: none;
+  }
+
+  .header-notification {
+    padding: 6px 12px;
+    gap: 6px;
+  }
+
+  .notification-icon {
+    font-size: 18px;
+  }
+
+  .notification-count {
+    font-size: 16px;
+  }
+}
+
+/* Адаптивность для маленьких мобильных */
+@media (max-width: 480px) {
+  .header {
+    padding: 0 12px 0 50px;
+  }
+
+  .header-content {
+    height: 52px;
+  }
+
+  .header-title {
+    font-size: 16px;
+    gap: 6px;
+  }
+
+  .header-icon {
+    font-size: 20px;
+  }
+
+  .header-notification {
+    padding: 5px 10px;
+  }
+
+  .notification-icon {
+    font-size: 16px;
+  }
+
+  .notification-count {
+    font-size: 14px;
+  }
+}
+
