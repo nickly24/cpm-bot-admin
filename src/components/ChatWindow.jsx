@@ -1,14 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useChatHistory } from '../hooks';
 import { STATUS_OPTIONS, getStatusLabel, getStatusColor } from '../constants';
+import { apiClient } from '../api/client';
+import Modal from './Modal';
+import { useToast } from './Toast';
 import '../styles/ChatWindow.css';
 
 const ChatWindow = ({ chatId }) => {
   const { messages, userInfo, status, loading, error, sendMessage, updateStatus } = useChatHistory(chatId);
+  const toast = useToast();
   const [newMessage, setNewMessage] = useState('');
   const [adminName, setAdminName] = useState(localStorage.getItem('adminName') || 'Администратор');
   const [isSending, setIsSending] = useState(false);
   const [showStatusMenu, setShowStatusMenu] = useState(false);
+  const [showEditNameModal, setShowEditNameModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [editedName, setEditedName] = useState('');
+  const [isUpdatingName, setIsUpdatingName] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
 
@@ -33,8 +42,9 @@ const ChatWindow = ({ chatId }) => {
     try {
       await sendMessage(newMessage, adminName);
       setNewMessage('');
+      toast.success('Сообщение отправлено');
     } catch (err) {
-      alert('Ошибка отправки: ' + err.message);
+      toast.error('Ошибка отправки: ' + err.message);
     } finally {
       setIsSending(false);
     }
@@ -44,8 +54,57 @@ const ChatWindow = ({ chatId }) => {
     try {
       await updateStatus(newStatus);
       setShowStatusMenu(false);
+      toast.success('Статус пользователя обновлен');
     } catch (err) {
-      alert('Ошибка изменения статуса: ' + err.message);
+      toast.error('Ошибка изменения статуса: ' + err.message);
+    }
+  };
+
+  const handleOpenEditName = () => {
+    setEditedName(userInfo?.name || '');
+    setShowEditNameModal(true);
+  };
+
+  const handleSaveEditName = async () => {
+    if (!editedName.trim()) {
+      toast.warning('Имя не может быть пустым');
+      return;
+    }
+
+    setIsUpdatingName(true);
+    try {
+      const result = await apiClient.updateUserName(chatId, editedName);
+      if (result.success) {
+        setShowEditNameModal(false);
+        toast.success('Имя обновлено успешно!');
+        // Обновляем данные
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    } catch (err) {
+      toast.error('Ошибка обновления имени: ' + err.message);
+    } finally {
+      setIsUpdatingName(false);
+    }
+  };
+
+  const handleDeleteChat = async () => {
+    setIsDeleting(true);
+    try {
+      const result = await apiClient.deleteChat(chatId);
+      if (result.success) {
+        toast.success(`Чат удален успешно! Удалено сообщений: ${result.deleted.messages_count}`, 3000);
+        setShowDeleteModal(false);
+        // Перезагружаем страницу или возвращаемся к списку
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1500);
+      }
+    } catch (err) {
+      toast.error('Ошибка удаления чата: ' + err.message);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -78,8 +137,13 @@ const ChatWindow = ({ chatId }) => {
     });
   };
 
+  // Сортировка сообщений по времени (от старых к новым)
+  const sortedMessages = [...messages].sort((a, b) => 
+    new Date(a.timestamp) - new Date(b.timestamp)
+  );
+
   // Группировка сообщений по датам
-  const groupedMessages = messages.reduce((groups, message) => {
+  const groupedMessages = sortedMessages.reduce((groups, message) => {
     const date = formatMessageDate(message.timestamp);
     if (!groups[date]) {
       groups[date] = [];
@@ -87,6 +151,14 @@ const ChatWindow = ({ chatId }) => {
     groups[date].push(message);
     return groups;
   }, {});
+
+  // Сортировка дат (от старых к новым)
+  const sortedDates = Object.keys(groupedMessages).sort((a, b) => {
+    // Получаем первое сообщение каждой группы для сравнения дат
+    const dateA = new Date(groupedMessages[a][0].timestamp);
+    const dateB = new Date(groupedMessages[b][0].timestamp);
+    return dateA - dateB;
+  });
 
   if (!chatId) {
     return (
@@ -125,14 +197,24 @@ const ChatWindow = ({ chatId }) => {
             {userInfo?.name?.charAt(0)?.toUpperCase() || '?'}
           </div>
           <div className="chat-user-details">
-            <h3 className="chat-user-name">{userInfo?.name || 'Без имени'}</h3>
+            <div className="chat-user-name-row">
+              <h3 className="chat-user-name">{userInfo?.name || 'Без имени'}</h3>
+              <button 
+                className="edit-name-btn" 
+                onClick={handleOpenEditName}
+                title="Редактировать имя"
+              >
+                ✏️
+              </button>
+            </div>
             {userInfo?.username && (
               <p className="chat-user-username">@{userInfo.username}</p>
             )}
           </div>
         </div>
 
-        <div className="chat-user-status">
+        <div className="chat-header-actions">
+          <div className="chat-user-status">
           <button 
             className="status-button"
             onClick={() => setShowStatusMenu(!showStatusMenu)}
@@ -165,17 +247,26 @@ const ChatWindow = ({ chatId }) => {
               ))}
             </div>
           )}
+          </div>
+
+          <button 
+            className="delete-chat-btn"
+            onClick={() => setShowDeleteModal(true)}
+            title="Удалить чат"
+          >
+            🗑️
+          </button>
         </div>
       </div>
 
       {/* Сообщения */}
       <div className="chat-messages" ref={messagesContainerRef}>
-        {Object.keys(groupedMessages).length === 0 ? (
+        {sortedDates.length === 0 ? (
           <div className="no-messages">
             <p>Нет сообщений</p>
           </div>
         ) : (
-          Object.keys(groupedMessages).map(date => (
+          sortedDates.map(date => (
             <div key={date}>
               <div className="message-date-divider">
                 <span>{date}</span>
@@ -240,6 +331,84 @@ const ChatWindow = ({ chatId }) => {
           </button>
         </form>
       </div>
+
+      {/* Модальное окно редактирования имени */}
+      <Modal
+        isOpen={showEditNameModal}
+        onClose={() => setShowEditNameModal(false)}
+        title="✏️ Редактировать имя"
+      >
+        <div className="edit-name-modal">
+          <p className="modal-description">Изменить имя пользователя</p>
+          <input
+            type="text"
+            className="edit-name-input"
+            value={editedName}
+            onChange={(e) => setEditedName(e.target.value)}
+            placeholder="Введите новое имя"
+            disabled={isUpdatingName}
+          />
+          <div className="modal-actions">
+            <button
+              className="btn-primary"
+              onClick={handleSaveEditName}
+              disabled={isUpdatingName || !editedName.trim()}
+            >
+              {isUpdatingName ? 'Сохранение...' : '✅ Сохранить'}
+            </button>
+            <button
+              className="btn-secondary"
+              onClick={() => setShowEditNameModal(false)}
+              disabled={isUpdatingName}
+            >
+              Отмена
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Модальное окно удаления чата */}
+      <Modal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        title="⚠️ Удалить чат?"
+        className="delete-modal"
+      >
+        <div className="delete-chat-modal">
+          <div className="warning-box">
+            <p className="warning-text">
+              ⚠️ <strong>Это действие необратимо!</strong>
+            </p>
+            <p className="warning-description">
+              Будет удалено:
+            </p>
+            <ul className="delete-info-list">
+              <li><strong>Пользователь:</strong> {userInfo?.name || 'Без имени'}</li>
+              <li><strong>Username:</strong> @{userInfo?.username || 'нет'}</li>
+              <li><strong>Сообщений:</strong> {messages.length}</li>
+            </ul>
+            <p className="warning-footer">
+              Чат будет удален из базы данных безвозвратно!
+            </p>
+          </div>
+          <div className="modal-actions">
+            <button
+              className="btn-danger"
+              onClick={handleDeleteChat}
+              disabled={isDeleting}
+            >
+              {isDeleting ? 'Удаление...' : '🗑️ Да, удалить'}
+            </button>
+            <button
+              className="btn-secondary"
+              onClick={() => setShowDeleteModal(false)}
+              disabled={isDeleting}
+            >
+              Отмена
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -69,7 +69,13 @@ class ApiClient {
   async updateUserName(chatId, name) {
     return this.request(`/chats/${chatId}/name`, {
       method: 'PUT',
-      body: JSON.stringify({ name }),
+      body: JSON.stringify({ name: name.trim() }),
+    });
+  }
+
+  async deleteChat(chatId) {
+    return this.request(`/chats/${chatId}`, {
+      method: 'DELETE',
     });
   }
 

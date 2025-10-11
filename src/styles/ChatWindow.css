@@ -44,6 +44,12 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+.chat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .chat-user-info {
   display: flex;
   align-items: center;
@@ -68,11 +74,33 @@
   flex-direction: column;
 }
 
+.chat-user-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .chat-user-name {
   font-size: 18px;
   font-weight: 600;
   color: #2c3e50;
   margin: 0;
+}
+
+.edit-name-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.edit-name-btn:hover {
+  opacity: 1;
+  background: #f0f0f0;
 }
 
 .chat-user-username {
@@ -360,6 +388,172 @@
   cursor: not-allowed;
 }
 
+/* Кнопка удаления чата */
+.delete-chat-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-chat-btn:hover {
+  background: #c82333;
+  transform: scale(1.05);
+}
+
+.delete-chat-btn:active {
+  transform: scale(0.95);
+}
+
+/* Модальные окна */
+.edit-name-modal,
+.delete-chat-modal {
+  min-width: 300px;
+}
+
+.modal-description {
+  margin: 0 0 16px 0;
+  color: #666;
+  font-size: 15px;
+}
+
+.edit-name-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.edit-name-input:focus {
+  border-color: #2196F3;
+  background: #f8f9fa;
+}
+
+.edit-name-input:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  padding: 12px 24px;
+  background: #f0f0f0;
+  color: #666;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  padding: 12px 24px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.warning-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.warning-text {
+  color: #856404;
+  font-size: 16px;
+  margin: 0 0 12px 0;
+}
+
+.warning-description {
+  color: #856404;
+  font-size: 15px;
+  margin: 12px 0 8px 0;
+  font-weight: 600;
+}
+
+.delete-info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+
+.delete-info-list li {
+  color: #856404;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.warning-footer {
+  color: #dc3545;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 12px 0 0 0;
+}
+
 /* Адаптивность для планшетов */
 @media (max-width: 1024px) {
   .chat-window-header {
@@ -397,6 +591,10 @@
     padding: 12px 16px;
   }
 
+  .chat-header-actions {
+    gap: 8px;
+  }
+
   .chat-user-avatar {
     width: 42px;
     height: 42px;
@@ -411,9 +609,30 @@
     font-size: 13px;
   }
 
+  .edit-name-btn {
+    font-size: 14px;
+    padding: 3px;
+  }
+
+  .delete-chat-btn {
+    padding: 6px 10px;
+    font-size: 16px;
+  }
+
   .status-button {
     padding: 6px 12px;
     font-size: 13px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    width: 100%;
+    padding: 14px 24px;
   }
 
   .chat-messages {

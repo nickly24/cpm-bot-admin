@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Header, Sidebar, Dashboard, ChatList, ChatWindow, BroadcastForm } from './components';
 import { useChats } from './hooks';
+import { ToastProvider } from './components/Toast';
 import './App.css';
 
 function App() {
@@ -99,30 +100,32 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <Header unreadCount={totalUnread} />
-      
-      <div className="app-container">
-        {/* Кнопка меню для мобильных */}
-        <button 
-          className="mobile-menu-toggle"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          ☰
-        </button>
-
-        <Sidebar 
-          currentView={currentView} 
-          onViewChange={handleViewChange}
-          isMobileMenuOpen={isMobileMenuOpen}
-          onCloseMobileMenu={handleCloseMobileMenu}
-        />
+    <ToastProvider>
+      <div className="app">
+        <Header unreadCount={totalUnread} />
         
-        <main className="app-main">
-          {renderMainContent()}
-        </main>
+        <div className="app-container">
+          {/* Кнопка меню для мобильных */}
+          <button 
+            className="mobile-menu-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            ☰
+          </button>
+
+          <Sidebar 
+            currentView={currentView} 
+            onViewChange={handleViewChange}
+            isMobileMenuOpen={isMobileMenuOpen}
+            onCloseMobileMenu={handleCloseMobileMenu}
+          />
+          
+          <main className="app-main">
+            {renderMainContent()}
+          </main>
+        </div>
       </div>
-    </div>
+    </ToastProvider>
   );
 }
 

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { apiClient } from '../api/client';
 import { STATUS_OPTIONS, getStatusLabel } from '../constants';
+import { useToast } from './Toast';
 import '../styles/BroadcastForm.css';
 
 const BroadcastForm = () => {
+  const toast = useToast();
   const [message, setMessage] = useState('');
   const [selectedStatuses, setSelectedStatuses] = useState([]);
   const [adminName, setAdminName] = useState(localStorage.getItem('adminName') || 'Администратор');
@@ -12,7 +14,7 @@ const BroadcastForm = () => {
 
   const handleSend = async () => {
     if (!message.trim()) {
-      alert('Введите текст сообщения');
+      toast.warning('Введите текст сообщения');
       return;
     }
 
@@ -40,12 +42,14 @@ const BroadcastForm = () => {
         message: response.message
       });
       
+      toast.success(`Рассылка завершена! Отправлено: ${response.stats.success} из ${response.stats.total_target}`, 5000);
       setMessage('');
     } catch (error) {
       setResult({
         success: false,
         error: error.message
       });
+      toast.error('Ошибка рассылки: ' + error.message);
     } finally {
       setLoading(false);
     }
