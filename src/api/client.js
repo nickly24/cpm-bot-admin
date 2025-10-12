@@ -102,6 +102,43 @@ class ApiClient {
       body: JSON.stringify(body),
     });
   }
+
+  // Настройки бота - Сообщения
+  async getBotMessages() {
+    return this.request('/bot-messages');
+  }
+
+  async updateBotMessage(messageKey, text) {
+    return this.request(`/bot-messages/${messageKey}`, {
+      method: 'PUT',
+      body: JSON.stringify({ text }),
+    });
+  }
+
+  // Настройки бота - Статусы
+  async getConfigStatuses() {
+    return this.request('/config/statuses');
+  }
+
+  async createStatus(value, label, emoji = '') {
+    return this.request('/config/statuses', {
+      method: 'POST',
+      body: JSON.stringify({ value, label, emoji }),
+    });
+  }
+
+  async updateConfigStatus(statusValue, label, emoji = '') {
+    return this.request(`/config/statuses/${statusValue}`, {
+      method: 'PUT',
+      body: JSON.stringify({ label, emoji }),
+    });
+  }
+
+  async deleteConfigStatus(statusValue) {
+    return this.request(`/config/statuses/${statusValue}`, {
+      method: 'DELETE',
+    });
+  }
 }
 
 export const apiClient = new ApiClient();

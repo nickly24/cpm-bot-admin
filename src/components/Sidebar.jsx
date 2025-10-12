@@ -6,6 +6,7 @@ const Sidebar = ({ currentView, onViewChange, isMobileMenuOpen, onCloseMobileMen
     { id: 'dashboard', label: 'Дашборд', icon: '📊' },
     { id: 'chats', label: 'Чаты', icon: '💬' },
     { id: 'broadcast', label: 'Рассылка', icon: '📢' },
+    { id: 'settings', label: 'Настройки', icon: '⚙️' },
   ];
 
   const handleMenuClick = (viewId) => {

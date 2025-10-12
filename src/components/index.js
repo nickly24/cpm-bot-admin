@@ -6,4 +6,7 @@ export { default as ChatWindow } from './ChatWindow';
 export { default as BroadcastForm } from './BroadcastForm';
 export { default as Modal } from './Modal';
 export { ToastProvider, useToast } from './Toast';
+export { default as Settings } from './Settings';
+export { default as BotMessages } from './BotMessages';
+export { default as StatusesManager } from './StatusesManager';
 

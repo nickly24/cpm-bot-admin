@@ -1,0 +1,528 @@
+.settings-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.settings-header {
+  margin-bottom: 32px;
+}
+
+.settings-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+}
+
+.settings-subtitle {
+  font-size: 18px;
+  color: #666;
+  margin: 0;
+}
+
+/* Вкладки */
+.settings-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: -2px;
+}
+
+.tab-button:hover {
+  color: #2c3e50;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.tab-button.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.tab-icon {
+  font-size: 20px;
+}
+
+.tab-label {
+  font-weight: 600;
+}
+
+.settings-content {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Общие стили */
+.settings-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  font-size: 18px;
+  color: #666;
+}
+
+.section-main-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 12px 0;
+}
+
+.section-description {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 32px 0;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 20px 0;
+}
+
+/* Редактор сообщений */
+.bot-messages {
+  width: 100%;
+}
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.message-item {
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.message-item:hover {
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.message-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.message-key {
+  font-size: 14px;
+  color: #999;
+  font-family: monospace;
+}
+
+.message-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.message-textarea:focus {
+  border-color: #667eea;
+  background: white;
+}
+
+.message-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  gap: 16px;
+}
+
+.message-placeholders {
+  font-size: 14px;
+  color: #666;
+  flex: 1;
+}
+
+.btn-save {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-save:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Управление статусами */
+.statuses-manager {
+  width: 100%;
+}
+
+.statuses-list-section {
+  margin-bottom: 40px;
+}
+
+.statuses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.status-card {
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.status-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.status-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.status-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.status-emoji {
+  font-size: 24px;
+}
+
+.status-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.status-value {
+  font-size: 14px;
+  color: #999;
+  font-family: monospace;
+}
+
+.system-badge {
+  font-size: 13px;
+  padding: 4px 10px;
+  background: #ff9800;
+  color: white;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.status-description {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 12px 0;
+}
+
+.status-card-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-edit {
+  padding: 10px 20px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-edit:hover {
+  background: #1976D2;
+  transform: translateY(-2px);
+}
+
+.btn-delete-status {
+  padding: 10px 20px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-delete-status:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+/* Форма добавления статуса */
+.add-status-section {
+  padding-top: 32px;
+  border-top: 2px solid #e0e0e0;
+}
+
+.add-status-form {
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.form-input {
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: #667eea;
+  background: white;
+}
+
+.form-input:disabled {
+  background: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.form-hint {
+  font-size: 12px;
+  color: #999;
+}
+
+.btn-add {
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #4CAF50 0%, #2e7d32 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-add:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.btn-add:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Модальные окна */
+.edit-status-modal,
+.delete-status-modal {
+  min-width: 350px;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 1024px) {
+  .settings-page {
+    padding: 24px;
+  }
+
+  .settings-title {
+    font-size: 32px;
+  }
+
+  .settings-content {
+    padding: 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .settings-page {
+    padding: 20px 16px;
+  }
+
+  .settings-title {
+    font-size: 28px;
+  }
+
+  .settings-subtitle {
+    font-size: 16px;
+  }
+
+  .settings-tabs {
+    gap: 4px;
+  }
+
+  .tab-button {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .tab-icon {
+    font-size: 18px;
+  }
+
+  .settings-content {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .section-main-title {
+    font-size: 24px;
+  }
+
+  .section-description {
+    font-size: 14px;
+  }
+
+  .message-item,
+  .status-card,
+  .add-status-form {
+    padding: 16px;
+  }
+
+  .message-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-save,
+  .btn-add {
+    width: 100%;
+  }
+
+  .status-card-actions {
+    flex-direction: column;
+  }
+
+  .btn-edit,
+  .btn-delete-status {
+    width: 100%;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* Адаптивность для маленьких мобильных */
+@media (max-width: 480px) {
+  .settings-page {
+    padding: 16px 12px;
+  }
+
+  .settings-title {
+    font-size: 24px;
+  }
+
+  .settings-subtitle {
+    font-size: 14px;
+  }
+
+  .tab-button {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .settings-content {
+    padding: 16px;
+  }
+
+  .section-main-title {
+    font-size: 22px;
+  }
+
+  .message-item,
+  .status-card,
+  .add-status-form {
+    padding: 14px;
+  }
+
+  .status-card-title {
+    flex-wrap: wrap;
+  }
+}
+
