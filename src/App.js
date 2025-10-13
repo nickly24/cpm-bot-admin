@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Header, Sidebar, Dashboard, ChatList, ChatWindow, BroadcastForm } from './components';
+import { Header, Sidebar, Dashboard, ChatList, ChatWindow, BroadcastForm, Settings } from './components';
 import { useChats } from './hooks';
 import { ToastProvider } from './components/Toast';
 import './App.css';
@@ -93,6 +93,9 @@ function App() {
       
       case 'broadcast':
         return <BroadcastForm />;
+      
+      case 'settings':
+        return <Settings />;
       
       default:
         return <Dashboard onNavigateToChats={handleNavigateToChats} />;
