@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { apiClient } from '../api/client';
-import { STATUS_OPTIONS, getStatusLabel } from '../constants';
+import { useStatuses } from '../hooks';
 import { useToast } from './Toast';
 import '../styles/BroadcastForm.css';
 
 const BroadcastForm = () => {
   const toast = useToast();
+  const { getStatusLabel, getStatusOptions } = useStatuses();
   const [message, setMessage] = useState('');
   const [selectedStatuses, setSelectedStatuses] = useState([]);
   const [adminName, setAdminName] = useState(localStorage.getItem('adminName') || 'Администратор');
@@ -64,7 +65,7 @@ const BroadcastForm = () => {
   };
 
   const selectAll = () => {
-    setSelectedStatuses(STATUS_OPTIONS.map(opt => opt.value));
+    setSelectedStatuses(getStatusOptions().map(opt => opt.value));
   };
 
   const clearAll = () => {
@@ -101,7 +102,7 @@ const BroadcastForm = () => {
         </div>
 
         <div className="target-groups">
-          {STATUS_OPTIONS.map(option => (
+          {getStatusOptions().map(option => (
             <label 
               key={option.value} 
               className={`target-group-item ${selectedStatuses.includes(option.value) ? 'selected' : ''}`}
@@ -112,7 +113,7 @@ const BroadcastForm = () => {
                 onChange={() => toggleStatus(option.value)}
                 disabled={loading}
               />
-              <span className="target-group-label">{option.label}</span>
+              <span className="target-group-label">{option.emoji} {option.label}</span>
             </label>
           ))}
         </div>

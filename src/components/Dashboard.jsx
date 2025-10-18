@@ -1,10 +1,10 @@
 import React from 'react';
-import { useStats } from '../hooks';
-import { CLIENT_STATUSES, getStatusColor } from '../constants';
+import { useStats, useStatuses } from '../hooks';
 import '../styles/Dashboard.css';
 
 const Dashboard = ({ onNavigateToChats }) => {
   const { stats, loading, error } = useStats();
+  const { getStatusLabel, getStatusColor, getStatusEmoji, statuses } = useStatuses();
 
   if (loading) {
     return (
@@ -59,20 +59,20 @@ const Dashboard = ({ onNavigateToChats }) => {
         <h3 className="section-title">Распределение по статусам</h3>
         
         <div className="status-bars">
-          {Object.keys(CLIENT_STATUSES).map(statusKey => {
-            const count = statusDistribution[statusKey] || 0;
+          {statuses.map(status => {
+            const count = statusDistribution[status.value] || 0;
             const percentage = total > 0 ? (count / total) * 100 : 0;
-            const color = getStatusColor(statusKey);
+            const color = getStatusColor(status.value);
 
             return (
-              <div key={statusKey} className="status-bar-item">
+              <div key={status.value} className="status-bar-item">
                 <div className="status-bar-header">
                   <span className="status-bar-label">
                     <span 
                       className="status-dot" 
                       style={{ backgroundColor: color }}
                     ></span>
-                    {CLIENT_STATUSES[statusKey]}
+                    {status.emoji} {status.label}
                   </span>
                   <span className="status-bar-count">{count}</span>
                 </div>
@@ -95,14 +95,14 @@ const Dashboard = ({ onNavigateToChats }) => {
       <div className="dashboard-chart">
         <h3 className="section-title">Визуализация</h3>
         <div className="pie-chart">
-          {Object.keys(CLIENT_STATUSES).map((statusKey, index) => {
-            const count = statusDistribution[statusKey] || 0;
+          {statuses.map((status, index) => {
+            const count = statusDistribution[status.value] || 0;
             const percentage = total > 0 ? (count / total) * 100 : 0;
-            const color = getStatusColor(statusKey);
+            const color = getStatusColor(status.value);
 
             return percentage > 0 ? (
               <div 
-                key={statusKey}
+                key={status.value}
                 className="pie-segment"
                 style={{
                   '--percentage': percentage,
@@ -111,7 +111,7 @@ const Dashboard = ({ onNavigateToChats }) => {
                 }}
               >
                 <div className="pie-label">
-                  {CLIENT_STATUSES[statusKey]}: {count}
+                  {status.emoji} {status.label}: {count}
                 </div>
               </div>
             ) : null;

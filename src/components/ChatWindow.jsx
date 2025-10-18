@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useChatHistory } from '../hooks';
-import { STATUS_OPTIONS, getStatusLabel, getStatusColor } from '../constants';
+import { useChatHistory, useStatuses } from '../hooks';
 import { apiClient } from '../api/client';
 import Modal from './Modal';
 import { useToast } from './Toast';
@@ -8,6 +7,7 @@ import '../styles/ChatWindow.css';
 
 const ChatWindow = ({ chatId }) => {
   const { messages, userInfo, status, loading, error, sendMessage, updateStatus } = useChatHistory(chatId);
+  const { getStatusLabel, getStatusColor, getStatusOptions } = useStatuses();
   const toast = useToast();
   const [newMessage, setNewMessage] = useState('');
   const [adminName, setAdminName] = useState(localStorage.getItem('adminName') || 'Администратор');
@@ -229,7 +229,7 @@ const ChatWindow = ({ chatId }) => {
 
           {showStatusMenu && (
             <div className="status-menu">
-              {STATUS_OPTIONS.map(option => (
+              {getStatusOptions().map(option => (
                 <button
                   key={option.value}
                   className={`status-menu-item ${status === option.value ? 'active' : ''}`}
@@ -242,7 +242,7 @@ const ChatWindow = ({ chatId }) => {
                     className="status-menu-dot"
                     style={{ backgroundColor: getStatusColor(option.value) }}
                   ></span>
-                  {option.label}
+                  {option.emoji} {option.label}
                 </button>
               ))}
             </div>

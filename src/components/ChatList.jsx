@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { useChats } from '../hooks';
-import { getStatusLabel, getStatusColor, STATUS_OPTIONS } from '../constants';
+import { useChats, useStatuses } from '../hooks';
 import '../styles/ChatList.css';
 
 const ChatList = ({ onSelectChat, selectedChatId }) => {
   const { chats, loading, error } = useChats();
+  const { getStatusLabel, getStatusColor, getStatusOptions } = useStatuses();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [sortBy, setSortBy] = useState('time'); // 'time' или 'unread'
@@ -109,9 +109,9 @@ const ChatList = ({ onSelectChat, selectedChatId }) => {
             onChange={(e) => setFilterStatus(e.target.value)}
           >
             <option value="all">Все статусы</option>
-            {STATUS_OPTIONS.map(option => (
+            {getStatusOptions().map(option => (
               <option key={option.value} value={option.value}>
-                {option.label}
+                {option.emoji} {option.label}
               </option>
             ))}
           </select>
